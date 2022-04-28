@@ -61,15 +61,13 @@ const OnlineStoreCartContext = ({ children }) => {
 
   // modify cartItem (as if in place)
   const _updateExistingCartItem = (cartItem, quantity) => {
-    // clone the cart items
-    const copyCartItems = [...cartItems]
-    const copyCartItem = copyCartItems.find(ii => ii._id === cartItem._id)
-
-    // update cartItem
-    copyCartItem._itemQuantity += quantity
-
-    // update state
-    setCartItems(copyCartItems)
+    const updatedCartItems = cartItems.map(ii => {
+      if (ii._id === cartItem._id) {
+        return { ...ii, _itemQuantity: ii._itemQuantity + quantity }
+      }
+      return ii
+    })
+    setCartItems(updatedCartItems)
   }
 
   // add item to cart
